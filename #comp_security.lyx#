@@ -1562,7 +1562,6 @@ A distributed denial-of-service (DDoS) is a large-scale DoS attack where
 \begin_inset Graphics
 	filename pics/DDos_Attack.svg
 	width 75text%
-	height 60theight%
 
 \end_inset
 
@@ -1581,26 +1580,6 @@ Attacker generates a high volume of SYN requests with spoofed source address.
 
 \begin_layout Subsubsection
 Smurf
-\end_layout
-
-\begin_layout Standard
-The Smurf attack is an attack in which large numbers of Internet Control
- Message Protocol (ICMP) packets (ping) with the intended victim's spoofed
- source IP are broadcast to a computer network using an IP broadcast address.
- Most devices on a network will, by default, respond to this by sending
- a reply to the source IP address.
- If the number of machines on the network that receive and respond to these
- packets is very large, the victim's computer will be flooded with traffic
-\end_layout
-
-\begin_layout Standard
-\begin_inset Graphics
-	filename pics/smurf_attack.png
-	width 85text%
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
