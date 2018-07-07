@@ -1177,5 +1177,199 @@ Non-executable stack (Return-to-libc or ROP attack still usable)
 Address layout randomization (ASLR)
 \end_layout
 
+\begin_layout Section
+Format string
+\end_layout
+
+\begin_layout Subsection
+Reading the stack
+\end_layout
+
+\begin_layout Standard
+Consider this snippet of code:
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "snippets/vuln_format_str.c"
+lstparams "language={[ANSI]C}"
+
+\end_inset
+
+If an user inser as 
+\begin_inset Formula $\mathtt{argv\left[1\right]}$
+\end_inset
+
+ one or more placeholders (e.g.
+ 
+\begin_inset Formula $\mathtt{\%x}$
+\end_inset
+
+), he can read some stack areas above (higher addresses) the areas allocated
+ for the funcion 
+\begin_inset Formula $\mathtt{printf}$
+\end_inset
+
+.
+ If an user put something with a known ASCII coding (e.g.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+AAAA
+\begin_inset Quotes erd
+\end_inset
+
+) following by a certain number of 
+\begin_inset Formula $\mathtt{\%x}$
+\end_inset
+
+ in his format string, the user will be able to reading the string itself
+ (e.g.
+ he will see 
+\begin_inset Quotes eld
+\end_inset
+
+41414141
+\begin_inset Quotes erd
+\end_inset
+
+ somewhere)
+\end_layout
+
+\begin_layout Subsection
+Writing the stack
+\end_layout
+
+\begin_layout Standard
+With placeholder 
+\begin_inset Formula $\mathtt{\%n}$
+\end_inset
+
+ an user can write, in the address pointed to by the argument, the number
+ of chars printed so far (e.g.
+ 
+\begin_inset Formula $\mathtt{printf("hello\%n",\&i);}$
+\end_inset
+
+ 
+\begin_inset Formula $\mathtt{i}$
+\end_inset
+
+ becomes equal to 5).
+ So an user can control the flow execution by:
+\end_layout
+
+\begin_layout Enumerate
+Putting, on the stack, the address (addr) of the memory cell (target) to
+ modify
+\end_layout
+
+\begin_layout Enumerate
+Use %x to go find it on the stack
+\end_layout
+
+\begin_layout Enumerate
+Use %n to write an arbitrary number in the cell pointed to by addr, which
+ is target
+\end_layout
+
+\begin_layout Standard
+so the structure of the format string should be the following:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pics/format_string.png
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Web app security
+\end_layout
+
+\begin_layout Standard
+The golden rule of web application security is that the client is never
+ trustworthy, so we need to filter and check carefully anything that is
+ sent to us
+\end_layout
+
+\begin_layout Subsection
+XSS
+\end_layout
+
+\begin_layout Standard
+Cross site scripting (XSS) is a vulnerability by means of which client-side
+ code can be injected in a page.
+ For example if in a blog site an user insert a comment like this
+\begin_inset CommandInset include
+LatexCommand lstinputlisting
+filename "snippets/xss_example.js"
+lstparams "language=HTML"
+
+\end_inset
+
+without adeguate filtering policy, popup would appear on next visitors’
+ screen
+\end_layout
+
+\begin_layout Subsubsection
+Stored XSS (AKA Persistent)
+\end_layout
+
+\begin_layout Standard
+The attacker input is stored on the target server, such as in a database,
+ in a message forum, visitor log, comment field, etc
+\end_layout
+
+\begin_layout Subsubsection
+Reflected XSS (AKA Non-Persistent)
+\end_layout
+
+\begin_layout Standard
+User input is immediately returned by a web application in an error message,
+ search result, or any other response that includes some or all of the input
+ provided by the user as part of the request without permanently storing
+ the user provided data
+\end_layout
+
+\begin_layout Subsubsection
+DOM Based XSS
+\end_layout
+
+\begin_layout Standard
+The user provided data never even leave the browser so the attack payload
+ is executed as a result of modifying the DOM “environment” in the victim’s
+ browser
+\end_layout
+
+\begin_layout Subsubsection
+Escaping policy
+\end_layout
+
+\begin_layout Standard
+Blacklisting or whitelisting are not the right policies for handle this
+ vulnerability, instead if we adopt a filtering policy.
+ for instance we can swap 
+\begin_inset Formula $\mathtt{>}$
+\end_inset
+
+ with its HTML safe equivalent 
+\begin_inset Formula $\mathtt{\&gt;}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathtt{<}$
+\end_inset
+
+ with 
+\begin_inset Formula $\mathtt{\&lt;}$
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
