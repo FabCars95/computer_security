@@ -2194,5 +2194,213 @@ Trojan horses: apparently benign program that hide a malicious functionality
  and allow remote control
 \end_layout
 
+\begin_layout Subsection
+Botnets
+\end_layout
+
+\begin_layout Standard
+A botnet is a network that consists of several malicious bots that are controlle
+d by a commander, commonly known as botmaster (botherder).
+ The main threats caused by the botnets are:
+\end_layout
+
+\begin_layout Itemize
+For the infected host: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+information harvesting
+\end_layout
+
+\begin_layout Itemize
+Identity data Financial data 
+\end_layout
+
+\begin_layout Itemize
+Private data E-mail address books 
+\end_layout
+
+\begin_layout Itemize
+Any other type of data that may be present on the host of the victim
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+For the rest of the Internet
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Spamming 
+\end_layout
+
+\begin_layout Itemize
+DDoS 
+\end_layout
+
+\begin_layout Itemize
+Propagation (network or email worm) 
+\end_layout
+
+\begin_layout Itemize
+Support infrastructure for illegal internet activity (the botnet itself,
+ phishing sites, drive-by-download sites)
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Antivirus and anti-malware
+\end_layout
+
+\begin_layout Itemize
+Basic strategy is signature-based detection: database of byte-level or instructi
+on-level signatures that match malware
+\end_layout
+
+\begin_layout Itemize
+Implemented through 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Heuristics algorithm (check for signs of infection) e.g.:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Code execution starts in last section 
+\end_layout
+
+\begin_layout Itemize
+Incorrect header size in PE header 
+\end_layout
+
+\begin_layout Itemize
+Suspicious code section name 
+\end_layout
+
+\begin_layout Itemize
+Patched import address table
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Behavioral Detection:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Detect signs (behavior) of known malware 
+\end_layout
+
+\begin_layout Itemize
+Dtect “common behaviors” of malware
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Subsubsection
+Virus and Worm Stealth Techniques
+\end_layout
+
+\begin_layout Itemize
+Entry Point Obfuscation
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Multicavity viruses 
+\end_layout
+
+\begin_layout Itemize
+Virus hijacks control later (after program is launched) 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Overwrite import table addresses (e.g., libraries) 
+\end_layout
+
+\begin_layout Itemize
+Overwrite function call instructions
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Polymorphism
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Change layout (shape) with each infection 
+\end_layout
+
+\begin_layout Itemize
+Payload is encrypted (~ packing) 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Using different key for each infection 
+\end_layout
+
+\begin_layout Itemize
+Makes static string analysis practically impossible 
+\end_layout
+
+\begin_layout Itemize
+Of course, AV could detect encryption routine
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Metamorphism
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+create different “versions” of code that look different but have the same
+ semantics (i.e., do the same)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Dormant period 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+During which no malicious behavior is exhibited 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Event-triggered payload 
+\end_layout
+
+\begin_layout Itemize
+Encryption / Packing 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Similar to polymorphism but more advanced techniques are available in more
+ complex malware 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Rootkit techniques
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Anti-virtualization techniques
+\end_layout
+
+\end_deeper
 \end_body
 \end_document
