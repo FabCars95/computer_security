@@ -411,7 +411,7 @@ Pick a number
 \end_inset
 
  in 
-\begin_inset Formula $\left[1,\ldots,\right]\left(n-1\right)$
+\begin_inset Formula $\left[1,\ldots,\left(n-1\right)\right]$
 \end_inset
 
  (this is secret and is the private key of Alice 
@@ -1576,7 +1576,8 @@ SYN flood attack
 \begin_layout Standard
 Attacker generates a high volume of SYN requests with spoofed source address.
  Many half-open TCP/IP connections fill the queue.
- SYN requests from legitimate clients dropped
+ SYN requests from legitimate clients dropped.
+ SYN-cookies avoid this attack
 \end_layout
 
 \begin_layout Subsubsection
@@ -2402,5 +2403,25 @@ Anti-virtualization techniques
 \end_layout
 
 \end_deeper
+\begin_layout Subsubsection
+Rootkit
+\end_layout
+
+\begin_layout Standard
+A rootkit is a malware that infects the machine at user or kernel level.
+ The goal of a rootkit is to give the attacker persistence access to the
+ machine and, optionally, hide the attacker’s actions (including the presence
+ of the rootkit itself) by modifying how the (operating) system behaves
+ (e.g., by hiding processes or files).
+ Rootkits are hard to detect, especially if they are planted in the operating
+ system kernel, because they alter its behavior to make detection difficult
+ or impossible.
+ Usually, a reasonable first approach is to analyze the computer's disk
+ on a different computer, and try to spot any differences (e.g.
+ any files or processes that show up on the other computer and not on the
+ supposedly infected one).
+ This is called cross-layer examination.
+\end_layout
+
 \end_body
 \end_document
