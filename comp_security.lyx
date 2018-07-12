@@ -745,6 +745,40 @@ Use with second factor
 \end_layout
 
 \end_deeper
+\begin_layout Subsubsection
+Secure Password Exchange and Storage
+\end_layout
+
+\begin_layout Standard
+How to minimize the risk that secrets get stolen? 
+\end_layout
+
+\begin_layout Itemize
+Use mutual authentication if possible 
+\end_layout
+
+\begin_layout Itemize
+Use a challenge-response scheme (Server sends a challenge (random data)
+ to the client.
+ The client concatenates the challenge with the secret and other random
+ data, and hashes the resulting string, which is sent back to the server
+ along with the other random data in clear.
+ The server has all the "ingredients" to perform the same operation and
+ verify that the 2 hashes match)
+\end_layout
+
+\begin_layout Itemize
+Use random data to avoid replay attacks
+\end_layout
+
+\begin_layout Itemize
+Never store passwords in clear
+\end_layout
+
+\begin_layout Itemize
+Never disclose secrets in password-recovery schemes
+\end_layout
+
 \begin_layout Subsection
 \begin_inset Quotes eld
 \end_inset
@@ -1170,7 +1204,10 @@ OS Level Defenses
 \end_layout
 
 \begin_layout Itemize
-Non-executable stack (Return-to-libc or ROP attack still usable)
+Non-executable stack (Return-to-libc or ROP attack still usable): this protectio
+n requires the OS and the hardware to cooperate: the NX (nonexecutable)
+ bit should be supported by the processor, and the OS needs to set this
+ bit for the pages which are used as stack
 \end_layout
 
 \begin_layout Itemize
@@ -1544,6 +1581,54 @@ Spoofing (against integrity and authenticity): forging network packets
 \end_layout
 
 \begin_layout Subsection
+Killer packets
+\end_layout
+
+\begin_layout Subsubsection
+PoD (ping of death)
+\end_layout
+
+\begin_layout Standard
+Pathological ICMP echo request that exploit a memory error (buffer overflow)
+ in the protocol implementation.
+ Machines can be crashed by sending IP packets that exceed the maximum legal
+ length (65535 octets).
+ This vulnerability can be solved by upgrading operating system to a version
+ that is not vulnerable or by using a firewall that drops the package with
+ a payload too large
+\end_layout
+
+\begin_layout Subsubsection
+Teardrop
+\end_layout
+
+\begin_layout Standard
+Exploit vulnerabilities in the TCP reassembly.
+ Fragmented packets with overlapping offsets.
+ While reassembling, kernel can hang/crash
+\end_layout
+
+\begin_layout Subsubsection
+Land Attack
+\end_layout
+
+\begin_layout Standard
+A long time ago, in Windows 95, a packet with:
+\end_layout
+
+\begin_layout Itemize
+src IP == dst IP
+\end_layout
+
+\begin_layout Itemize
+SYN flag set 
+\end_layout
+
+\begin_layout Standard
+could loop and lock up a TCP/IP stack
+\end_layout
+
+\begin_layout Subsection
 DDoS (distributed denial-of-service)
 \end_layout
 
@@ -1554,8 +1639,7 @@ A distributed denial-of-service (DDoS) is a large-scale DoS attack where
  Since the incoming traffic flooding the victim originates from many different
  sources, it is impossible to stop the attack simply by using ingress filtering.
  It also makes it very difficult to distinguish legitimate user traffic
- from attack traffic when spread across so many points of origin.
- 
+ from attack traffic when spread across so many points of origin
 \end_layout
 
 \begin_layout Standard
@@ -2170,6 +2254,54 @@ Not foolproof
 \end_layout
 
 \end_deeper
+\begin_layout Subsection
+SET
+\end_layout
+
+\begin_layout Standard
+It guarantees that the minimal amount of information about a commercial
+ transaction is disclosed to the parties: the merchant is only informed
+ about the successful payment (without knowing any payment details, e.g.,
+ credit card number), whereas the payment gateway is only informed about
+ the payment details (without knowing the purchased goods).
+ It is created by hashing the payment information (PI) and order information
+ (OI) individually, concatenate the hashes so obtained, hash the result
+ and encrypt it with the buyer's private key.
+ The resulting encrypted hash is the dual signature, which is concatenated
+ with the OI (resp.
+ PI) and the hash of the PI (resp.
+ OI), and encrypted with the public key of the merchant (resp.
+ payment gateway).
+ Unfortunately, the dual signature as specified in SET cannot be used in
+ the real world because it requires certificate-based authentication of
+ all the involved parties.
+ While this is generally not a problem for merchants and payment gateway,
+ it is definitely a problem for the buyers, thus not creating a critical
+ mass to allow SET to be deployed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename pics/SET.png
+	width 75text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A possible intermediate solution based on HTTPS to implement the "equivalent"
+ of the dual signature can be: instead of processing the payment directly
+ by collecting the payment information from the buyer, the merchant creates
+ a unique token for the transaction (which substitutes the hash of the OI)
+ and redirects the buyer to the payment gateway, which processes the payment
+ and releases a response token based on the unique token above (which substitute
+s the hash of the PI).
+ Then, the buyer goes back to the merchant, which can verify that the hash
+ of the PI is related to the hash of the OI
+\end_layout
+
 \begin_layout Section
 Malware
 \end_layout
